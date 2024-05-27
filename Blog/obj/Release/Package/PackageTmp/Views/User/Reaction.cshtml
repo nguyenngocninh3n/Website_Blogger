@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Blog.Models.Reaction>
+@{
+    Layout = null;
+}
+
+
+@if (Model.Count() > 0)
+{
+    foreach (var item in Model)
+    {
+
+        <div class="behavior">
+            @if (item.IsLiked == 1)
+            {
+                <div class="behavior_item behavior_reaction liked" id="behavior_react">
+                    <div class="behavior_item-sub behavior_like " id="btn_like" name="btn_like">
+                        <i id="heart_icon" class="far fa-heart"></i><p>Đã Thích</p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="behavior_item behavior_reaction" id="behavior_react">
+                    <div class=" behavior_like behavior_item-sub" id="btn_like" name="btn_like">
+                        <i id="heart_icon" class="far fa-heart"></i><p>Thích</p>
+                    </div>
+                </div>
+            }
+            <div class="behavior_item behavior_comment" name="behavior_comment"><i class="far fa-comment"></i><p>Bình Luận</p></div>
+            <div class="behavior_item behavior_share">
+                <div class=" behavior_shared behavior_item-sub" id="btn_share" name="btn_share">
+                    <i class="glyphicon glyphicon-share"></i><p>Chia sẻ</p>
+                </div>
+            </div>
+        </div>
+
+
+    }
+}
+else
+{
+    <div class="behavior">
+        <div class="behavior_item behavior_reaction" id="behavior_react">
+            <div class=" behavior_like behavior_item-sub" id="btn_like" name="btn_like">
+                <i id="heart_icon" class="far fa-heart"></i><p>Thích</p>
+            </div>
+        </div>
+        <div class="behavior_item behavior_comment" name="behavior_comment"><i class="far fa-comment"></i><p>Bình Luận</p></div>
+        <div class="behavior_item behavior_share">
+            <div class=" behavior_shared behavior_item-sub" id="btn_share" name="btn_share">
+                <i class="glyphicon glyphicon-share"></i><p>Chia sẻ</p>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+
+

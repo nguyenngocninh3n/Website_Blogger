@@ -1,0 +1,139 @@
+﻿@model IEnumerable<Blog.Models.Content>
+@{
+    Layout = null;
+}
+
+
+@foreach (var item in Model)
+{
+    <div class="create">
+        <div class="create_avatar"> </div>
+        <input id="createcontent" onclick="showCreateContent()" class="create_input" placeholder="Chỉnh sửa bài viết" />
+        <div id="showhide" class="newcontent">
+            <p class="newcontent_title">
+                Chỉnh sửa bài viết
+            </p>
+            @using (Html.BeginForm("EditContent", "User", new { idOwner = item.IDUser, idPost = item.IDPost }, FormMethod.Post))
+            {
+                @Html.ValidationSummary(true)
+                <div class="newcontent_body">
+                    <div id="newcontent_cancel" onclick="hideCreateContent()"></div>
+                    @ViewData["ErrTitle"]
+                    <input type="text" id="title" value="@item.Title" name="title" class="newcontent_item newcontent_item-title" />
+                    @ViewData["ErrContent"]
+                    <textarea size="40" maxlength="4000" id="content" name="content" type="text" class="newcontent_item newcontent_item-content">@item.Contents</textarea>
+                    <input type="button"  class="newcontent_item newcontent_cancel" value="Hủy" />
+                    <input type="submit" class="newcontent_item newcontent_submit"  value="Lưu" />
+                </div>
+            }
+        </div>
+
+    </div>
+}
+
+
+<style>
+    .create {
+        display: flex;
+        width: 800px;
+        margin: 16px auto;
+        font-size: 16px;
+    }
+
+    .create_avatar {
+        width: 50px;
+        height: 50px;
+        background-image: url('../../Images/AvtNull.jpg');
+        border-radius: 50%;
+        background-size: contain;
+        margin-right: 8px;
+    }
+
+    .create_input {
+        flex: 1;
+        border-radius: 28px;
+        font-size: 20px;
+        padding-left: 16px;
+        max-width: 100%;
+    }
+
+
+
+    .newcontent {
+        position: absolute;
+        top: 50px;
+        width: 800px;
+        margin: auto;
+        display: none;
+        background: #ccc;
+        border-radius: 16px;
+        z-index: 1;
+    }
+
+    #newcontent_cancel {
+        background: url('../../Images/btn_cancel.jpg');
+        width: 32px;
+        height: 32px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-size: contain;
+        cursor: pointer;
+    }
+
+    .open {
+        display: block;
+    }
+
+    .newcontent_title {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin: 16px 0;
+    }
+
+    .newcontent_body {
+        display: flex;
+        flex-direction: column;
+        padding: 16px 32px;
+    }
+
+    .newcontent_item {
+        border-radius: 28px;
+        font-size: 20px;
+        max-width: 100%;
+        border: none;
+        padding: 4px 24px;
+    }
+
+    .newcontent_item-content {
+        padding-top: 8px;
+        margin: 24px 0;
+        height: 200px;
+    }
+
+    .newcontent_submit {
+        background: blue;
+        padding: 4px 0;
+        width: 100%;
+    }
+</style>
+
+
+<script>
+
+    const closeF = document.getElementById('newcontent_cancel')
+
+    //hiện form
+    function showCreateContent() {
+        const openF = document.getElementById('showhide')
+        openF.classList.add('open')
+    }
+
+    //ẩn form
+    function hideCreateContent() {
+        const openF = document.getElementById('showhide')
+        openF.classList.remove('open')
+    }
+
+</script>

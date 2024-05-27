@@ -1,0 +1,96 @@
+﻿@model IEnumerable<Blog.Models.Content>
+@{
+    Layout = null;
+}
+
+<div class="profile" id="@Session["IDUser"]">
+
+    <div class="profile" id="@Session["IDUser"]">
+        <div class="profile_main" id="profile_main">
+            @foreach (var item in Model)
+            {
+                <div class="profile_content" id="@item.IDUser">
+                    <div class="pro">
+                        <div class="pro_fomat-user">
+                            <div class="pro_item pro_user ">
+                                <img src="~/Images/AvtNull.jpg" class="pro_user-item pro_user-img" />
+                                <div class="pro_user-item">
+                                    <div class="pro_user-item--name">  <a href="@Url.Action("ViewProfile", "User", new { idUser = item.IDUser })">@item.UserName</a></div>
+                                    <div class="pro_user-item--time">@item.DateCreated.ToString()</div>
+                                </div>
+                            </div>
+                            @if (Session["User"] != null)
+                            {
+                                <div class="pro_item pro_control" id="@item.IDUser">
+                                    <div class="pro_control-from" id="@item.IDPost">
+                                        <div class="pro_control-option">
+                                            <div id="btn_cancel"></div>
+                                            <div class="pro_control-text">Bạn có muốn xóa bài viết không?</div>
+                                            <div class="pro_control-btn">
+                                                <input type="button" name="btn_delete-yes" value="Yes" />
+                                                <input type="button" name="btn_delete-no" value="No" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button id="pro_control-button" name="pro_control-button" class="pro_control-button">....</button>
+                                    <div class="pro_function">
+                                        @if (!String.IsNullOrEmpty(Session["User"].ToString()) && Session["IDUser"].Equals(Session["IDGuest"]))
+
+                                        {
+
+                                            <button name="pro_function-delete" class="pro_function-item pro_function-delete">Xóa bài viết</button>
+                                            <button class="pro_function-item pro_function-edit">Sửa bài viết</button>
+                                        }
+
+                                        <button name="pro_function-save" class="pro_function-item pro_function-save">Lưu bài viết</button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+                    <div class="content" id="@item.IDPost">
+                        <div class="conten_item">
+                            @Html.Action("ViewContentShared", "User", new { idUser = item.IDUser, idPost = item.IDPost})
+                        </div>
+                       
+                        @* <div class="content_item content_img">@item.Images</div>*@
+
+                        <div class="behaviour" id="behaviour">
+                            <div class="behaviour_item behaviour_like" id="heartcount"><p>@item.HeartCount lượt thích</p></div>
+                            <div class="behaviour_item behaviour_comment"><p>@item.CommentCount bình luận</p></div>
+                            <div class="behaviour_item behaviour_share"><p>@item.SharedCount chia sẻ</p></div>
+                        </div>
+
+                        <div class="contain_behavior" name="behavior">
+                            @if (Session["IDUser"] == null)
+                            {
+                                <div class="behavior">
+                                    <div class="behavior_item behavior_comment" style="margin:auto" name="behavior_comment"><i class="far fa-comment"></i><p>Bình Luận</p></div>
+                                </div>
+                            }
+                            else
+                            {
+                                @*<div class="behavior">
+                                        <div class="behavior_item behavior_reaction" id="behavior_react"><div class=" behavior_like" id="btn_like" name="btn_like"><i id="heart_icon" class="far fa-heart"></i><p>Thích</p></div></div>
+                                        <div class="behavior_item behavior_comment" name="behavior_comment"><i class="far fa-comment"></i><p>Bình Luận</p></div>
+                                        <div class="behavior_item behavior_share"> <i class="glyphicon glyphicon-share"></i><p>Chia sẻ</p></div>
+                                    </div>*@
+                                @Html.Action("Reaction", "User", new { idUser = item.IDUser, idPost = item.IDPost })
+                            }
+                            @Html.Action("CreateComment", "User")
+                            <div class="cmt_form-viewcmt">
+                                @Html.Action("ViewComment", "Home", new { idOwner = item.IDUser, idPost = item.IDPost })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+
+
+

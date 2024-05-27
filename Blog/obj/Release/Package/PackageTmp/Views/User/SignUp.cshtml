@@ -1,0 +1,219 @@
+﻿
+@{
+    ViewBag.Title = "SignUp";
+    Layout = null;
+}
+
+<div class="container">
+    <div class="signup">
+        <p style="color:#eee" class="signup_name">Đăng ký</p>
+        <p class="signup_title">Thỏa hồn cảm xúc và từng con chữ  </p>
+        <div style="height: 16px;margin-top:16px; color: yellow; text-align: center;">@ViewData["Err0"]</div>
+
+        @using (Html.BeginForm("SignUp", "User"))
+        {
+            @Html.ValidationSummary(true)
+
+            <div class="signup_form">
+                <input type="text"    maxlength="30"  class="signup_form-item" value="@ViewData["Name"]" name="form_name"     placeholder="Họ và tên" /> 
+                <input type="text"      maxlength="10" class="signup_form-item" value="@ViewData["PhoneNumer"]" name="form_phonenumber" placeholder="Số điện thoại" /> 
+                <input type="password" maxlength="30" class="signup_form-item" name="form_password" placeholder="Mật khẩu" /> 
+                <input type="password" maxlength="30" class="signup_form-item" name="form_password-repeat" placeholder="Nhập lại mật khẩu" /> 
+                <div class=" signup_form-item form_control">
+
+                    @{
+                        <div class="form_datetime">
+                            <select name="form_date-day" class="form_date">
+                                @ViewData["DateDay"];
+                                @for (int i = 1; i <= 30; i++)
+                                {
+                                    <option class="text-black" value="@i">@i</option>
+                                }
+                            </select>
+                            <select name="form_date-month" class="form_date">
+                                @ViewData["DateMonth"];
+                                @for (int i = 1; i <= 12; i++)
+                                {
+                                    <option class="text-black" value="@i"> Tháng @i</option>
+                                }
+                            </select>
+                            <select name="form_date-year" class="form_date">
+                                @ViewData["DateYear"];
+                                @for (int i = 1900; i <= 2022; i++)
+                                {
+                                    <option class="text-black" value="@i"> @i</option>
+                                }
+                            </select>
+
+                        </div>
+
+                        <div class="form_GT ">
+                            <div class="GT_man">
+                                <span>Nam</span>
+                                <input name="GT_selected" type="radio" value="Man" />
+
+                            </div>
+                            <div class="GT_woman">
+                                <span>Nữ</span>
+                                <input name="GT_selected" type="radio" value="Woman" />
+
+                            </div>
+                            <div class="GT_other">
+                                <span>Khác</span>
+                                <input name="GT_selected" type="radio" value="Other" />
+
+                            </div>
+                        </div>
+                    }
+                </div>
+                <input type="submit" class="form_submit" value="Đăng ký" />
+            </div>
+            <div class="form_login">
+                <p class="form_login-label">Do you have account?</p>
+                <div class="form_login-text">
+                    <a href="@Url.Action("Login", "User")">LOGIN</a>
+                </div>
+            </div>
+
+        }
+    </div>
+  
+</div>
+
+<style>
+
+    .text-black {
+        color:#000;
+    }
+
+    .form_login {
+        text-align:center;
+        box-sizing:border-box;
+        font-size: 24px;
+        margin-bottom: 24px;
+    }
+
+    .form_login-text {
+        margin: 8px 0 0px;
+        text-align: center;
+      
+    }
+
+
+    * {
+        margin: 0;
+        padding: 0;
+        font-size: 16px;
+        color:#fff;
+        box-sizing: border-box;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .container {
+        background: #ccc;
+        height: 100%;
+        padding: 16px;
+    }
+
+    .signup {
+        border: 1px solid #ccc;
+        background: #fff;
+        border-radius: 24px;
+        width: 450px;
+        margin: auto;
+        background: url(../../Images/background_login.jpg);
+       
+    }
+
+        .signup p {
+            font-weight: bold;
+        }
+
+    .signup_name {
+        font-size: 24px;
+        text-align: center;
+        padding: 24px 0 8px;
+    }
+
+    .signup_title {
+        text-align: center;
+    }
+
+    .signup_form {
+        display: flex;
+        flex-direction: column;
+        margin: 20px auto 48px;
+        text-align: center;
+        padding: 0px 40px;
+    }
+
+    .signup_form-item {
+        margin: 8px 0;
+        padding: 8px ;
+        font-size: 20px;
+        border-radius: 8px;
+        color:#000;
+    }
+
+    .signup_form-item.form_control {
+        display: flex;
+        justify-content: space-around;
+        flex-direction: column;
+        padding:8px 0;
+    }
+
+    .form_datetime {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .form_date {
+        font-size: 20px;
+        padding: 4px 32px 4px 8px;
+        color: #000;
+    }
+    .form_date select {
+        color:#000;
+    }
+
+    .form_GT {
+        display: flex;
+        align-content: center;
+        justify-content: space-between;
+        margin: 24px 0;
+    }
+
+        .form_GT div {
+            border: 1px solid #ccc;
+            width: 110px;
+            padding: 4px 0;
+        }
+
+            .form_GT div span {
+                font-size: 20px;
+                margin-right: 20px;
+            }
+
+            .form_GT div input {
+                height: 16px;
+                width: 16px;
+            }
+
+    .form_submit {
+        font-size: 20px;
+        font-weight: bold;
+        padding: 8px 0;
+        color:#000;
+        background-color:antiquewhite;
+    }
+
+    .form_submit:hover {
+        cursor:pointer;
+        opacity: 0.8;
+    }
+
+    .form_login-text a:hover {
+        color:yellow;
+    }
+</style>

@@ -1,0 +1,248 @@
+﻿@model IEnumerable<Blog.Models.Content>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+
+<h2 class="user_title">Quản lý bài viết</h2>
+<span style="text-align:center; color:orangered;">@ViewData["err"]</span>
+<div><a href="@Url.Action("Create", "Content")">Thêm mới</a></div>
+<div class="user">
+        <div style="text-align:center" class="qluser bg-success row">
+            <div class="col-lg-1 qluser_item">ID User</div>
+            <div class="col-lg-1 qluser_item">ID Post</div>
+            <div class="col-lg-2 qluser_item">Họ tên</div>
+            <div class="col-lg-4 qluser_item">Tiêu đề</div>
+            <div class="col-lg-4 qluser_item qluser_btn">
+                <div class="user_btn"></div>
+                <div class="user_btn"></div>
+                <div class="user_btn"></div>
+            </div>
+        </div>
+    @helper Truncate(string s, int length)
+    {
+
+        if( s == null)
+    {
+
+    }    
+        else if (s.Length < length)
+        {
+            @s
+        }
+        else
+        {
+            @s.Insert(length, "...").Substring(0, length + 3);
+
+        }
+    }
+    @foreach (var item in Model)
+    {
+        <div >
+            <div class="qluser row">
+                <div class="col-lg-1 qluser_item">@item.IDUser</div>
+                <div class="col-lg-1 qluser_item">@item.IDPost</div>
+                <div class="col-lg-2 qluser_item">@item.UserName</div>
+                <div class="col-lg-4 qluser_item">@Truncate(@item.Title, 50)</div>
+                <div class="col-lg-4 qluser_item qluser_btn row">
+                    <div class="col-lg-4 user_btn btn-info">
+                    <a class="user_btn-link user_btn-detail " href="@Url.Action("Detail", "Content", new { idUser = item.IDUser, idPost = item.IDPost})">Chi tiết</a>
+                    </div>
+                    <div class="col-lg-4 user_btn user_mini btn-primary">
+                    <a class="user_btn-link user_btn-edit " href="@Url.Action("Edit", "Content", new { idUser = item.IDUser, idPost = item.IDPost})">Sửa</a>
+                    </div>
+                    <div id="btn_delete" class="col-lg-4 user_btn user_mini user_btn-delete btn-danger">Xóa</div>
+                </div>
+            </div>
+            <div class="notify" id="notify">
+                <div class="notify_box">
+                    <div class="notify_cancel" id="btn_cancel"></div>
+                    <div class="notify_title notify_text">Bạn có muốn xóa không</div>
+                    <div class="notify_options">
+                        <a href="@Url.Action("Delete", "User", new {idUser = item.IDUser })" class="notify_option notify_text option_submit" id="option_submit">Xóa</a>
+                        <div class="notify_option notify_text option_cancel" id="option_cancel">Hủy</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+
+</div>
+
+
+
+<script>
+
+    //đóng form xóa bài viết - lựa chọn nhấn nút X
+    $(document).on('click', "div[id='btn_cancel']", function () {
+        let btnshow = $($(this).parent().parent()).removeClass('open_deleteFrom');
+    });
+
+    //mở yêu cầu đăng nhập
+    $(document).on('click', "div[id='btn_delete']", function () {
+        //$(document.getElementById('notify')).removeClass('hide');
+        $($(this).parent().parent().parent().children()[1]).addClass('open_deleteFrom');
+    });
+
+
+    //đóng yêu cầu đăng nhập bằng cancel
+    $(document).on('click', "div[id='option_cancel']", function () {
+        $($(this).parent().parent().parent()).removeClass('open_deleteFrom');
+    });
+</script>
+<style>
+    .user_btn-link {
+        display:block;
+        color: #fff;
+    }
+
+    .user_title {
+        color: #F05;
+        font-size: 40px;
+        text-align: center;
+    }
+
+    .notify {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0,0,0,0.08);
+    }
+
+    .notify_box {
+        width: 400px;
+        height: 150px;
+        margin: auto;
+        background: #fff;
+        position: relative;
+        padding-top: 32px;
+    }
+
+    .notify_title .notify_text {
+        font-size: 22px;
+    }
+
+    .notify_options {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 50px;
+        display: flex;
+    }
+
+    .user_btn-delete {
+        display: flex;
+        justify-content: center;
+    }
+
+    .notify_option {
+        width: 50%;
+        height: 100%;
+        text-align: center;
+        border: 1px solid #eee;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        height: 100%;
+        padding: calc( ( 40px - 32px ) / 2) 0;
+        cursor: pointer;
+        opacity: 0.7;
+    }
+
+    .option_submit {
+        background: #4cff00;
+    }
+
+        .option_submit:hover {
+            opacity: 1;
+        }
+
+    .option_cancel {
+        background: #ede;
+    }
+
+        .option_cancel:hover {
+            opacity: 1;
+        }
+
+    .notify_text {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .open_deleteFrom {
+        display: flex !important;
+    }
+</style>
+
+<style>
+    .user {
+        width: 100%;
+        max-height: 100%;
+        height: 100%;
+        box-sizing:border-box;
+    }
+
+    .qluser {
+        display: flex;
+        border-left: 1px solid #615b5b;
+        max-height: 100%;
+    }
+/*
+    .qluser_item {
+        min-width: 160px;
+        display: flex;
+        min-height: 30px;
+        height: 100%;
+        max-height: 100%;
+        justify-content: center;
+        border-right: 1px solid #615b5b;
+        border-bottom: 1px solid #615b5b;
+        align-items: center;
+    }
+
+        .qluser_item.qluser_btn {
+            width: 200px;
+        }*/
+
+    .qluser_item {
+        min-height: 30px;
+        display: flex;
+        border-right: 1px solid #615b5b;
+        border-bottom: 1px solid #615b5b;
+        align-items: center;
+    }
+
+        .qluser_item.qluser_btn {
+            margin:0;
+            padding:0;
+        }
+
+    .user_btn {
+        display: block;
+        min-width: 60px;
+        min-height: 100%;
+        margin: 4px;
+        padding:2px;
+        display: flex;
+        align-items: center;
+    }
+
+        .user_btn a {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .user_btn:hover {
+            background: #ffd800;
+        }
+</style>

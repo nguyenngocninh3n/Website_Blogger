@@ -1,0 +1,50 @@
+﻿@{
+    Layout = null;
+}
+<div class="cmt_form" id="showhide_cmt">
+    <div class="cmt_form-main">
+        @if (Session["User"] == null)
+        {
+            <div class="notify" id="notify">
+                <div class="notify_box">
+                    <div class="notify_cancel" id="btn_cancel"></div>
+                    <div class="notify_title notify_text">Vui lòng đăng nhập để bình luận</div>
+                    <div class="notify_options">
+                        <a href="@Url.Action("LoginToComment", "User", new {idGuest = Session["IDGuest"] })" class="notify_option notify_text option_submit" id="option_submit">Đăng nhập</a>
+                        <div class="notify_option notify_text option_cancel" id="option_cancel">Quay lại</div>
+                    </div>
+                </div>
+            </div>
+        }
+        <textarea size="40" maxlength="4000" class="cmt_form-item cmt_form-texarea" name="cmt_form-textarea" id="cmt_form-textarea" placeholder="Viết bình luận"></textarea>
+        <input class="cmt_form-submit cmt_form-item" name="cmt_form-submit" type="submit" value="Gửi" />
+    </div>
+</div>
+<style>
+    .cmt_form-main {
+        display: flex;
+        padding: 8px;
+        margin-top: 16px;
+    }
+
+    .cmt_form-texarea {
+        width: 800px;
+        height: 50px;
+        max-height: 500px;
+        border-radius: 28px;
+        font-size: 15px;
+        max-width: 100%;
+        border: none;
+        padding: 12px 28px;
+        border: 3px solid #EEE;
+    }
+
+
+    .cmt_form-submit {
+        width: 80px;
+        height: 40px;
+        align-self: flex-end;
+        margin-left: 8px;
+        margin-bottom: 8px;
+    }
+</style>

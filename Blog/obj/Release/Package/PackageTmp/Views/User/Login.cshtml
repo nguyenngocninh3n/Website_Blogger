@@ -1,0 +1,207 @@
+﻿
+@{
+    ViewBag.Title = "Đăng nhập";
+    Layout = "";
+    <link rel="stylesheet" href="~/fonts/fontawesome-free-6.1.2-web/css/all.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+}
+
+
+<div class="container">
+    <div class="form_container">
+        <div class="form_name">
+            <h1 class="form_name-text">Login</h1>
+            <div style="margin-top: 16px; color: red; text-align: center;">@ViewBag.ThongBao</div>
+        </div>
+       
+        @using (Html.BeginForm("Login", "User", FormMethod.Post))
+        {
+            @Html.ValidationSummary(true)
+            <div class="user">
+                <div class="user_item">
+                    <p class="user_item-title">
+                        Username <span style="color:red;margin-left: 16px; font-size:14px">@ViewData["Err1"]</span>
+                    </p>
+                    <div class="user_item-content">
+                        <img class="user_item-icon" />
+                        <input type="text" name="Username" class="user_item-input" placeholder="Type your username" />                      
+                    </div>
+                </div>
+                <div class="user_item">
+                    <p class="user_item-title">
+                        Password    <span style="color:red;margin-left: 16px; font-size:14px">@ViewData["Err2"]</span>
+                    </p>
+                    <div class="user_item-content">
+                        <img class="user_item-icon" />
+                        <input type="password" name="Password" class="user_item-input" placeholder="Type your password" />           
+                    </div>
+                </div>
+            </div>
+            <div class="user_forgot">Forgot password</div>
+            <div class="user_submit"><button type="submit" class="btn_submit">LOGIN</button></div>
+        }
+
+        <div class="form_select">
+            <p class="form_signup-label">Or Sign Up Using</p>
+
+            <div class="form_select-social">
+                <div class="social_icon">
+                    <a href="" class="social_icon-link">
+                        <i class="  fab fa-facebook"></i>
+                    </a>
+                </div>
+                <div class="social_icon">
+                    <a href="" class="social_icon-link">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+                <div class="social_icon">
+                    <a href="" class="social_icon-link">
+                        <i class="fab fa-google"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="form_signup">
+            <div class="form_signup-label">Or Sign Up Using</div>
+            <a href="@Url.Action("SignUp", "User")" class="form_signup-text">SIGN UP</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        font-size: 16px;
+        box-sizing: border-box;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .container {
+        background: url(../../Images/background_login.jpg);
+        padding: 16px;
+        background-repeat: round;
+        height: 100%;
+    }
+
+    .form_container {
+        display: block;
+        border-radius: 24px;
+        background: #fff;
+        margin: auto;
+        width: 430px;
+        padding: 40px 40px 32px;
+    }
+
+    .form_name {
+    }
+
+    .form_name-text {
+        font-size: 32px;
+        color: #000;
+        font-weight: bolder;
+        text-align: center;
+    }
+
+    .form-control {
+        margin-top: 28px;
+    }
+
+    .user {
+    }
+
+    .user_item {
+        border-bottom: 1px solid #ccc;
+        padding-top: 28px;
+    }
+
+    .user_item-title {
+    }
+
+    .user_item-content {
+        padding-top: 8px;
+    }
+
+
+    .user_item-content input {
+        font-size: 20px;
+    }
+
+    .user_item-icon {
+    }
+
+    .user_item-input {
+        border: hidden;
+        padding: 5px;
+        width: 100%;
+    }
+
+    .user_forgot {
+        text-align: right;
+        margin-top: 16px;
+    }
+
+
+    .btn_submit {
+        color: #fff;
+        text-align: center;
+        background: #3569e1;
+        width: 100%;
+        padding: 8px 0;
+        border-radius: 32px 32px;
+        border: none;
+        margin: 56px 0;
+    }
+    .btn_submit:hover {
+        cursor:pointer;
+        opacity:0.8;
+    }
+
+    .form_select-social {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 48px;
+    }
+
+    .form_signup-label {
+        text-align: center;
+        color: #666666;
+    }
+
+    .social_icon {
+        padding: 16px 10px;
+    }
+
+    .social_icon-link {
+        display: block;
+       
+    }
+
+    .social_icon-link i {
+        text-align: center;
+        font-size: 36px;
+    }
+
+    .social_icon-link:hover {
+        cursor: pointer;
+        opacity: 0.6;
+    }
+
+    .form_signup {
+        text-align:center;
+        font-size: 24px;
+
+    }
+
+    .form_signup-label {
+        margin-bottom: 8px;
+    }
+
+    .form_signup-text {
+        text-align: center;
+        margin-top: 24px;
+    }
+</style>

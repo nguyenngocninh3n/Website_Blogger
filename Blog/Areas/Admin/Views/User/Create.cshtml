@@ -1,0 +1,215 @@
+﻿
+
+@{
+    ViewBag.Title = "Thêm mới user";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+    <link rel="stylesheet" href="~/fonts/fontawesome-free-6.1.2-web/css/all.css">
+
+}
+<a href="@Url.Action("Index", "User")">
+    <div class="back">
+        <div class="btn_back">
+        </div>
+        <span> Trở về trang quản lý user</span>
+    </div>
+</a>
+
+<div class="ctuser_title">Thêm mới user</div>
+<div style="text-align:center; height:30px;background:#eee; color:orangered;">@ViewData["err"]</div>
+<div class="user">
+
+    @using (Html.BeginForm("Create", "User", FormMethod.Post))
+    {
+        @Html.ValidationSummary(true)
+        <div class="ctuser row">
+            <div class="ctuser_info col-lg-6">
+                <div class="info-item row">
+                    <div class="info_item-child col-lg-4 col-md-4 col-sm-4 info_item-title">Avatar</div>
+                    <input name="avatar" class="info_item-child col-lg-7 col-md-7 col-sm-7" />
+                    <div class="info_item-icon col-lg-1 col-md-1 col-sm-1"></div>
+                </div>
+                <div class="info-item row">
+                    <div class="info_item-child col-lg-4 col-md-4 col-sm-4 info_item-title">Họ và tên</div>
+                    <input type="text" name="username" class="info_item-child col-lg-7 col-md-7 col-sm-7" />
+                    <div class="info_item-icon col-lg-1 col-md-1 col-sm-1"></div>
+                </div>
+                <div class="info-item row">
+                    <div class="info_item-child col-lg-4 col-md-4 col-sm-4 info_item-title">Số điện thoại</div>
+                    <input type="tel" name="phonenumber" class="info_item-child col-lg-7 col-md-7 col-sm-7" />
+                    <div class="info_item-icon col-lg-1 col-md-1 col-sm-1"></div>
+                </div>
+                <div class="info-item row">
+                    <div class="info_item-child col-lg-4 col-md-4 col-sm-4 info_item-title">Mật khẩu</div>
+                    <input type="password" name="password" class="info_item-child col-lg-7 col-md-7 col-sm-7" />
+                    <div class="info_item-icon col-lg-1 col-md-1 col-sm-1"></div>
+                </div>
+                <div class="info-item row">
+                    <div class="info_item-child col-lg-4 col-md-4 col-sm-4 info_item-title">Email</div>
+                    <input type="text" name="email" class="info_item-child col-lg-7 col-md-7 col-sm-7" />
+                    <div class="info_item-icon col-lg-1 col-md-1 col-sm-1"></div>
+                </div>
+                <div class="info-item row">
+                    <div class="info_item-child col-lg-4 col-md-4 col-sm-4 info_item-title">Giới tính</div>
+                    <d class=" info_item-child col-lg-7 col-md-7 col-sm-7">
+                        <input type="radio" class="user_item-content sex" name="sex" checked id="Man" value="Man" />  <span>Nam</span>
+                        <input type="radio" class="user_item-content sex" name="sex" id="Woman" value="Woman" />  <span>Nữ</span>
+                        <input type="radio" class="user_item-content sex" name="sex" id="Order" value="Order" />  <span>Khác</span>
+
+                    </d>
+                    <div class="info_item-icon col-lg-1 col-md-1 col-sm-1"></div>
+                </div>
+                <div class="info-item row">
+                    <div class="info_item-child col-lg-4 col-md-4 col-sm-4 info_item-title">Ngày sinh</div>
+
+                    <select name="birthdayday" class="form_date col-lg-2 col-md-2  col-sm-2 ">
+                        @for (int i = 1; i <= 30; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                    <select name="birthdaymonth" class="form_date col-lg-3 col-md-3 col-sm-3 ">
+                        @for (int i = 1; i <= 12; i++)
+                        {
+                            <option value="@i"> Tháng @i</option>
+                        }
+                    </select>
+                    <select name="birthdayyear" class="form_date col-lg-2 col-md-2 col-sm-2 ">
+                        @for (int i = 1900; i <= 2022; i++)
+                        {
+                            <option value="@i"> @i</option>
+                        }
+                    </select>
+                    <div class="info_item-icon col-lg-1 col-md-1 col-sm-1"></div>
+                </div>
+            </div>
+            <div class="ctuser_info col-lg-6">
+                <div class="info-item row">
+                    <div class="info_item-child  col-lg-4 col-md-4 col-sm-4 info_item-title">Địa chỉ</div>
+                    <input type="text" name="address" class="info_item-child col-lg-7 col-md-7 col-sm-7" />
+                    <div class="info_item-icon col-lg-1 col-md-1 col-sm-1"></div>
+                </div>
+                <div class="info-item row">
+                    <div class="info_item-child col-lg-4 col-md-4 col-sm-4 info_item-title">Bằng cấp</div>
+                    <input type="text" name="degree" class="info_item-child col-lg-7 col-md-7 col-sm-7" />
+                    <div class="info_item-icon col-lg-1 col-md-1 col-sm-1"></div>
+                </div>
+                <div class="info-item row">
+                    <div class="info_item-child col-lg-4 col-md-4 col-sm-4 info_item-title">Công việc</div>
+                    <input type="text" name="job" class="info_item-child col-lg-7 col-md-7 col-sm-7" />
+                    <div class="info_item-icon col-lg-1 col-md-1 col-sm-1"></div>
+                </div>
+                <div class="info-item row">
+                    <div class="info_item-child col-lg-4 col-md-4 col-sm-4 info_item-title">Facebook</div>
+                    <input type="text" name="facebook" class="info_item-child col-lg-7 col-md-7 col-sm-7" />
+                    <div class="info_item-icon col-lg-1 col-md-1 col-sm-1"></div>
+                </div>
+                <div class="info-item row">
+                    <div class="info_item-child col-lg-4 col-md-4 col-sm-4 info_item-title">Instagram</div>
+                    <input type="text" name="instagram" class="info_item-child col-lg-7 col-md-7 col-sm-7" />
+                    <div class="info_item-icon col-lg-1 col-md-1 col-sm-1"></div>
+                </div>
+                <div class="info-item row">
+                    <div class="info_item-child col-lg-4 col-md-4 col-sm-4 info_item-title">Youtube</div>
+                    <input type="text" name="youtube" class="info_item-child col-lg-7 col-md-7 col-sm-7" />
+                    <div class="info_item-icon col-lg-1 col-md-1 col-sm-1"></div>
+                </div>
+                <div class="info-item row">
+                    <div class="info_item-child col-lg-4 col-md-4 col-sm-4 info_item-title">LinkedIn</div>
+                    <input type="text" name="linkedin" class="info_item-child col-lg-7 col-md-7 col-sm-7" />
+                    <div class="info_item-icon col-lg-1 col-md-1 col-sm-1"></div>
+                </div>
+            </div>
+
+        </div>
+        <div>
+            <div class="btn_options">
+                <button type="reset" class="btn_option btn_cancel btn-danger">Hủy</button>
+                <button type="submit" class="btn_option btn_submit btn-info">Lưu</button>
+            </div>
+        </div>
+    }
+</div>
+<style>
+    .back {
+        padding-top: 16px;
+        display: flex;
+        align-items: center;
+    }
+
+    .btn_back {
+        background-image: url(../../../../Images/back-button-svgrepo-com.svg);
+        width: 30px;
+        height: 30px;
+        background-repeat: no-repeat;
+        margin-right: 8px;
+    }
+
+
+    .info_item-icon {
+        background: url('../../../../Images/edit-pen-svgrepo-com.svg');
+        height: 28px;
+        width: 16px;
+        background-repeat: no-repeat;
+        margin: auto;
+    }
+
+    .ctuser_title {
+        color: #F05;
+        font-size: 40px;
+        text-align: center;
+    }
+
+    .info-item {
+        display: flex;
+    }
+
+    .info_item-sex {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        border: 1px solid;
+        padding: 0;
+    }
+
+    .form_date {
+        padding: 0 0 0 6px;
+        max-width: 240px
+    }
+
+    .info_item-child {
+        border: 1px solid #ccc;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        background: #fff;
+    }
+
+        .info_item-child.info_item-title {
+            color: #45C26B;
+            font-weight: 500;
+            font-style: italic;
+            background: #eee;
+        }
+
+    .ctuser {
+        padding: 5%;
+    }
+
+    .ctuser_info:first-child {
+        border-right: 2px solid #000;
+    }
+
+    .btn_options {
+        display: flex;
+        justify-content: center
+    }
+
+    .btn_option {
+        width: 150px;
+        height: 40px;
+        margin: 4px;
+    }
+</style>

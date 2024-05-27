@@ -1,0 +1,131 @@
+﻿@model IEnumerable<Blog.Models.Content>
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+
+<a href="@Url.Action("Index", "Content")">
+    <div class="back">
+        <div class="btn_back">
+        </div>
+        <span> Trở về trang quản lý bài viết</span>
+    </div>
+</a>
+
+<div class="ctuser_title">Chỉnh sửa bài viết</div>
+<span style="text-align:center; color:orangered;">@ViewData["err"]</span>
+@foreach (var item in Model)
+{
+    using (Html.BeginForm("Edit", "Content", FormMethod.Post))
+    {
+        @Html.ValidationSummary(true)
+        <div class="content_box">
+            <div class="content_items row">
+                <div class="col-lg-2 content_item content_title">Tiêu đề</div>
+                <input name="title" style="width:100%;" type="text" class="content_item content_body-title col-lg-9 " value="@item.Title" />
+                <div class="info_btn col-lg-1 col-md-1 col-sm-1">
+                    <div class="info_item-icon"></div>
+                </div>
+            </div>
+            <div class="content_items row">
+                <div class="content_item col-lg-2 content_title content_title-main">Nội dung</div>
+                <textarea name="content" type="text" class="content_item content_body-main col-lg-9">@item.Contents</textarea>
+                <div class="info_btn content_icon-main col-lg-1 col-md-1 col-sm-1"><div class="info_item-icon "></div></div>
+            </div>
+            <div>
+                <div class="btn_options">
+                    <button type="reset" class="btn_option btn_cancel btn-danger">Hủy</button>
+                    <button type="submit" class="btn_option btn_submit btn-info">Lưu</button>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+<style>
+    .back {
+        padding-top: 16px;
+        display: flex;
+        align-items: center;
+    }
+
+    .btn_back {
+        background-image: url(../../../../Images/back-button-svgrepo-com.svg);
+        width: 30px;
+        height: 30px;
+        background-repeat: no-repeat;
+        margin-right: 8px;
+    }
+
+    .ctuser_title {
+        color: #F05;
+        font-size: 40px;
+        text-align: center;
+    }
+
+    .btn_options {
+        display: flex;
+        justify-content: center
+    }
+
+    .btn_option {
+        width: 150px;
+        height: 40px;
+        margin: 4px;
+    }
+
+    .content_box {
+        margin: 0 5%;
+    }
+
+    .info_item-icon {
+        background: url('../../../../Images/edit-pen-svgrepo-com.svg');
+        height: 28px;
+        width: 28px;
+        background-repeat: no-repeat;
+        margin: auto;
+        display: flex;
+        align-items: center;
+    }
+
+    .content_item {
+        border: 1px solid #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 30px;
+    }
+
+    .content_title {
+        text-align: center;
+        color: #45C26B;
+        font-weight: 600;
+        font-style: italic;
+        font-size: 18px;
+    }
+
+    .content_body-title {
+        display: block;
+        min-width: 700px;
+    }
+
+    .content_body-main {
+        display: block;
+        min-height: 450px;
+        min-width: 700px;
+    }
+
+    .content_title-main {
+        min-height: 450px;
+    }
+
+    .content_icon-main {
+        min-height: 450px;
+        margin: auto;
+    }
+
+    .info_btn {
+        display: flex;
+        align-items: center;
+    }
+</style>

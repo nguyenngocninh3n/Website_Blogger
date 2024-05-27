@@ -1,0 +1,651 @@
+﻿@using Blog.Models;
+@model IEnumerable<Blog.Models.Content>
+@{
+    ViewBag.Title = "ViewProfile";
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    @Styles.Render("~/Content/css")
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+}
+
+<div class="profile" id="@Session["IDUser"]">
+    <div class="profile" id="@Session["IDUser"]">
+        <div class="profile_main" id="profile_main">
+            @foreach (var item in Model)
+            {
+                <div class="profile_content" id="@item.IDUser">
+                    <div class="pro">
+                        <div class="pro_fomat-user">
+                            <div class="pro_item pro_user ">
+                                <img src="~/Images/AvtNull.jpg" class="pro_user-item pro_user-img" />
+                                <div class="pro_user-item">
+                                    <div class="pro_user-item--name">  <a href="@Url.Action("ViewProfile", "User", new { idUser = item.IDUser })">@item.UserName</a></div>
+                                    <div class="pro_user-item--time">@item.DateCreated.ToString()</div>
+                                </div>
+                            </div>
+                            <div class="pro_item pro_control" id="@item.IDUser">
+                                <div class="pro_control-from" id="@item.IDPost">
+                                    <div class="pro_control-option">
+                                        <div id="btn_cancel"></div>
+                                        <div class="pro_control-text">Bạn có muốn xóa bài viết không?</div>
+                                        <div class="pro_control-btn">
+                                            <input type="button" name="btn_delete-yes" value="Yes" />
+                                            <input type="button" name="btn_delete-no" value="No" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <button id="pro_control-button" name="pro_control-button" class="pro_control-button">....</button>
+                                <div class="pro_function">
+                                    <button name="pro_function-delete" class="pro_function-item pro_function-delete">Xóa bài viết</button>
+                                    <button class="pro_function-item pro_function-edit">Sửa bài viết</button>
+                                    <button name="pro_function-save" class="pro_function-item pro_function-save">Lưu bài viết</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="content" id="@item.IDPost">
+                        <div class="content_item content_title">@item.Title</div>
+                        <div class="content_item content_text">
+                            @item.Contents
+
+                            @if (!String.IsNullOrEmpty(item.Type))
+                            {
+                                <p style="color:royalblue"> @item.Type.Replace('_', '#').Replace(" ", "") </p>
+                            }
+                        </div>
+                        @* <div class="content_item content_img">@item.Images</div>*@
+
+                        <div class="behaviour" id="behaviour">
+                            <div class="behaviour_item behaviour_like" id="heartcount"><p>@item.HeartCount lượt thích</p></div>
+                            <div class="behaviour_item behaviour_comment"><p>@item.CommentCount bình luận</p></div>
+                            <div class="behaviour_item behaviour_share"><p>@item.SharedCount chia sẻ</p></div>
+                        </div>
+
+                        <div class="contain_behavior" name="behavior">
+                            @if (Session["IDUser"] == null)
+                            {
+                                <div class="behavior">
+                                    <div class="behavior_item behavior_comment" style="margin:auto" name="behavior_comment"><i class="far fa-comment"></i><p>Bình Luận</p></div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="behavior">
+                                    <div class="behavior_item behavior_reaction" id="behavior_react"><div class=" behavior_like" id="btn_like" name="btn_like"><i id="heart_icon" class="far fa-heart"></i><p>Thích</p></div></div>
+                                    <div class="behavior_item behavior_comment" name="behavior_comment"><i class="far fa-comment"></i><p>Bình Luận</p></div>
+                                    <div class="behavior_item behavior_share"> <i class="glyphicon glyphicon-share"></i><p>Chia sẻ</p></div>
+                                </div>
+                            }
+                            @Html.Action("CreateComment", "User")
+                            <div class="cmt_form-viewcmt">
+                                @Html.Action("ViewComment", "Home", new { idOwner = item.IDUser, idPost = item.IDPost })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+
+<style>
+    .notify {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0,0,0,0.08);
+    }
+
+    .notify_box {
+        width: 400px;
+        height: 150px;
+        margin: auto;
+        background: #fff;
+        position: relative;
+        padding-top: 32px;
+    }
+
+    .notify_title .notify_text {
+        font-size: 22px;
+    }
+
+    .notify_options {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 50px;
+        display: flex;
+    }
+
+    .notify_option {
+        width: 50%;
+        height: 100%;
+        text-align: center;
+        border: 1px solid #eee;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        height: 100%;
+        padding: calc( ( 40px - 32px ) / 2) 0;
+        cursor: pointer;
+        opacity: 0.7;
+    }
+
+    .option_submit {
+        background: #4cff00;
+    }
+
+        .option_submit:hover {
+            opacity: 1;
+        }
+
+    .option_cancel {
+        background: #ede;
+    }
+
+        .option_cancel:hover {
+            opacity: 1;
+        }
+
+    .notify_text {
+        font-size: 24px;
+        text-align: center;
+    }
+</style>
+<script>
+    @*$(window).scroll(function () {
+        let position = $(this).scrollTop();
+        @Session["ScrollIndex"] = position;
+    }*@
+     //hiện form lựa chọn chức năng - function
+    $(document).on('click', "button[name='pro_control-button']", function () {
+        let btnshow = $($(this).parent().children()[2]).addClass('open_flex');
+    });
+
+
+    //hiện form hỏi xóa
+    $(document).on('click', "button[name='pro_function-delete']", function () {
+        let btnshow = $($(this).parent().parent().children()[0]).addClass('open_deleteFrom');
+    });
+
+    //chuyển sang trang edit content
+    @*$(document).on('click', "button[name='pro_function-edit']", function () {
+        let idOwner = $(this).closest('.pro_control').attr('id');
+        let idPost = $(this).closest('.pro_control-from').attr('id');
+        let tem =  Html.Action("EditContent", "User", new { idOwner = "ipO", idPost = "1" })
+            tem.replace("ipO", idOwner);
+            tem.replace("ipP", idPost);
+        return "@" + tem;
+    });*@
+
+
+    //đóng form xóa bài viết - lựa chọn nhấn nút X
+    $(document).on('click', "div[id='btn_cancel']", function () {
+        let btnshow = $($(this).parent().parent()).removeClass('open_deleteFrom');
+    });
+
+    //mở yêu cầu đăng nhập
+    $(document).on('click', "textarea[id='cmt_form-textarea']", function () {
+        //$(document.getElementById('notify')).removeClass('hide');
+        $($(this).parent().children()[0]).addClass('open_deleteFrom');
+    });
+
+
+    //đóng yêu cầu đăng nhập bằng cance
+    $(document).on('click', "div[id='option_cancel']", function () {
+        $($(this).parent().parent().parent()).removeClass('open_deleteFrom');
+    });
+
+
+
+
+
+    //hủy form xóa bài viết - lựa chọn cancel
+    $(document).on('click', "input[name='btn_delete-no']", function () {
+        let btnshow = $($(this).parent().parent().parent()).removeClass('open_deleteFrom')
+    });
+
+    //xóa bài viết
+    $(document).on('click', "input[name='btn_delete-yes']", function () {
+        let idOwner = $(this).closest('.pro_control').attr('id');
+        let idPost = $(this).closest('.pro_control-from').attr('id');
+
+        $.ajax({
+            url: '/User/DeleteContent',
+            type: 'post',
+            data: {
+                idOwner: idOwner,
+                idPost: idPost,
+            },
+            success: function (data) {
+                if (data.code == 200)
+                    alert(data.msg);
+                else if (data.code == 500)
+                    alert(data.msg)
+                let btnshow = $($(this).parent().parent().parent()).removeClass('open_deleteFrom')
+                $("#profile_main").load(location.href + " #profile_main")
+            }
+        })
+    });
+
+
+    //Lưu bài viết
+    $(document).on('click', "button[name='pro_function-save']", function () {
+        let idOwner = $(this).closest('.pro_control').attr('id');
+        let idPost = $($(this).parent().parent().children()[0]).attr('id');
+        $.ajax({
+            url: '/User/SavedContent',
+            type: 'post',
+            data: {
+                idOwner: idOwner,
+                idPost: idPost,
+            },
+            success: function (data) {
+                    alert(data.msg)
+                $("#profile_main").load(location.href + " #profile_main")
+            }
+        })
+    });
+
+
+
+    //hiển thị tất cả bình luận của bài viết
+        $(document).on('click', "div[name='behavior_comment']", function () {
+            const a = this.closest('.contain_behavior').classList;
+            if (a.contains("par"))
+               $($(this).closest('.contain_behavior')).removeClass('par');
+            else
+               $($(this).closest('.contain_behavior')).addClass('par');
+
+
+
+
+        //Nên đặt là html.action mới đúng, trước ghi nhầm nên n=không hiển thị, sau fix lại
+                  @*  let idOwner = $(this).closest('.profile_content').attr('id');
+                    let idPost = $(this).closest('.content').attr('id');
+                    var strText = @Url.Action("ViewComment","Home", new {idUser = "idUser", idPost = "idPost"})
+                        strText.replace("idUser", idOwner);
+                    strText.replace("idPost", idPost);
+                    $(this).parent().parent().children()[2].load(strText);
+                      <a href="@Url.Action("Display", "Customer")?custId={{cust.Id}}"></a>
+                   frmSomething.attr("action", "/Home/DoSomething?custNum=" + custNum);
+                      *@
+
+        });
+
+
+
+
+
+    //tym
+    $(document).on('click', "div[name='btn_like']", function () {
+            let idUser = $(this).closest('.profile').attr('id');
+            let idOwner = $(this).closest('.profile_content').attr('id');
+            let idPost = $(this).closest('.content').attr('id');
+        $.ajax({
+            url: '/User/Update',
+            type: 'post',
+            data: {
+                idUser: idUser,
+                idOwner: idOwner,
+                idPost: idPost,
+
+            },
+            success: function (data) {
+
+                if (data.msg == true) {
+                    $($(this).closest('.behavior_item behavior_reaction')).addClass('setLiked');
+                    }
+                $("#profile_main").load(location.href + " #profile_main")
+
+
+            }
+
+            })
+
+
+
+        });
+
+
+
+    //comment
+    $(document).on('click', "input[name='cmt_form-submit']", function () {
+            let idUser = $(this).closest('.profile').attr('id');
+            let idOwner = $(this).closest('.profile_content').attr('id');
+            let idPost = $(this).closest('.content').attr('id');
+            let commentString = $(this).parent().children().get(0).value;
+            let idParent = $(this).closest('.viewcmt').attr('id');
+        let Level = $(this).closest('.reply_cmt').attr('id');
+        let idComment = $(this).closest('.pro').attr('id');
+        console.log("idUser " + idUser);
+        console.log("idOwner "+ idOwner);
+        console.log("idPost "+ idPost);
+        console.log("commentString " + commentString);
+        console.log("idParent " + idParent);
+        console.log("Level" + Level);
+        console.log("idComment" + idComment);
+        if (commentString === '') {
+                return;
+            }
+        $.ajax({
+            url: '/User/CreateComment',
+            type: 'post',
+            data: {
+                idUser: idUser,
+                idOwner: idOwner,
+                idPost: idPost,
+                commentString: commentString,
+                idParent: idParent,
+                Level: Level,
+                idComment: idComment
+
+            },
+            success: function (data) {
+                if (data.code == 500) {
+                    alert(data.msg);
+                }
+                let formcmt = $($(this).closest('.contain_behavior')).removeClass('par')
+                $("#profile_main").load(location.href + " #profile_main")
+            }
+            })
+    });
+
+    function showComment() {
+            let showcmt = document.getElementById('showhide_cmt')
+        showcmt.classList.add('open')
+    }
+
+        //ẩn form
+        function hideComment() {
+            const openF = document.getElementById('showhide_cmt')
+            openF.classList.remove('open')
+        }
+
+        function setHeight(fieldId) {
+
+           // item.style.height = document.getElementById(fieldId).scrollHeight + 'px';
+        }
+
+        $(document).on('keypress', "textarea[name='cmt_form-textarea']", function (key) {
+            this.style.height = this.scrollHeight + "px";
+        });
+
+
+</script>
+
+
+<style>
+
+    .setLiked .behavior_like {
+        color: red;
+        font-weight: bold;
+    }
+
+    /* .pro_control-button:focus ~ .pro_function {
+            display:block;
+        }*/
+    .pro_control {
+        position: relative;
+    }
+
+    .pr {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .pro_function {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        width: 200px;
+        height: auto;
+        padding: 20px 10px;
+        display: none;
+    }
+
+    .open_flex {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .open_flex-notify {
+        display: flex !important;
+        justify-content: center;
+        align-content: center;
+        transition: 0.4s;
+    }
+
+
+    #btn_cancel {
+        background: url('../../Images/btn_cancel.jpg');
+        width: 35px;
+        height: 35px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-size: contain;
+        cursor: pointer;
+        border: 1px solid #eef
+    }
+
+    .open_deleteFrom {
+        display: flex !important;
+    }
+
+    .pro_control-from {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0,0,0,0.08);
+    }
+
+    .pro_control-option {
+        width: 300px;
+        height: 100px;
+        background-color: #eee;
+        position: relative;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    .show {
+        display: block;
+    }
+
+    .seleted {
+    }
+
+    .cmt_form {
+        display: none;
+    }
+
+    /*//cmt_form-main here*/
+
+    .liked {
+        color: red;
+        font-weight: bold;
+    }
+
+    .cmt_form-viewcmt {
+        margin: 8px 0;
+        display: none;
+    }
+
+
+    .par {
+    }
+
+        .par > .cmt_form, .par > .cmt_form-viewcmt {
+            display: block !important;
+        }
+
+    .open {
+        display: block !important;
+    }
+
+    .profile {
+        width: 100%;
+    }
+
+
+    .pro {
+        display: flex;
+        justify-content: space-between;
+        align-content: center;
+        flex-direction: column;
+    }
+
+    .pro_item {
+        display: flex;
+        font-size: 15px;
+    }
+
+    .pro_control-button {
+        display: block;
+        margin: 8px 0;
+        padding: 1px 6px 0px 6px;
+        border-radius: 51%;
+        text-align: center;
+        font-weight: bolder;
+        border: none;
+    }
+
+        .pro_control-button:hover {
+            cursor: pointer;
+            background: #ccc;
+        }
+
+
+    .pro_user-item {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .pro_user-img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 8px;
+    }
+
+    .profile_content {
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 20px 20px 0;
+        /*margin-bottom: 20px;*/
+        background: linear-gradient(0,0,0, .2);
+        margin-top: 20px;
+        margin-right: 24px;
+        margin-bottom: 20px;
+        box-shadow: 0px 2px 2px #aaa;
+    }
+
+    .content {
+    }
+
+    .content_item {
+        margin: 14px 0;
+        padding: 4px 16px;
+    }
+
+    .content_title {
+        color: #65676B;
+        font-size: 18px;
+    }
+
+    .content_text {
+        color: #000;
+        font-size: 16px;
+        text-align: justify;
+        line-height: 28px;
+        font-weight: 300;
+    }
+
+    .content_img {
+        background-color: yellow;
+    }
+
+    .behavior {
+        display: flex;
+        justify-content: space-between;
+        border-top: 1px solid #ccc;
+        padding: 4px 2px;
+        border-bottom: 2px solid #ccc;
+    }
+
+
+    .behavior_item {
+        display: flex;
+        align-content: center;
+        padding: 4px 24px 0px;
+        border-radius: 8px;
+    }
+
+        .behavior_item:hover {
+            background: #eee;
+            cursor: pointer;
+        }
+
+        .behavior_item i {
+            font-size: 18px;
+            margin-right: 4px;
+        }
+
+        .behavior_item p {
+            font-size: 15px;
+            line-height: 20px;
+        }
+
+    .behavior_like {
+        display: flex;
+    }
+
+    .behaviour {
+        display: flex;
+        justify-content: space-between;
+        border-top: 1px solid #ccc;
+        padding: 0 2px;
+    }
+
+    .behaviour_item {
+        padding: 4px 24px 0px;
+        border-radius: 8px;
+    }
+
+        .behaviour_item p {
+            font-size: 14px;
+        }
+
+    .behaviour_like {
+        flex: 7;
+    }
+
+    .behaviour_comment, .behaviour_share {
+        flex: 1;
+    }
+</style>
+

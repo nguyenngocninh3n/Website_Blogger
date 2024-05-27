@@ -1,0 +1,125 @@
+﻿@model IEnumerable<Blog.Models.Comment>
+
+@foreach (var item in Model)
+{
+
+    if (item.Level == 0)
+    {
+        <div class="viewcmt" id="@item.IDUser">
+           
+            <div class="pro" id="@item.IDComment">
+                <div class="pro_fomat-user">
+                    <div class="pro_item pro_user ">
+                        <img src="~/Images/AvtNull.jpg" class="pro_user-item pro_user-img" />
+                        <div class="pro_user-item">
+                            <div class="pro_user-item--name"><a href="@Url.Action("ViewProfile", "User", new { idUser = item.IDUser})">@item.UserName</a></div>
+                            <div class="pro_user-item--time">@item.DateCreated.ToString()</div>
+                        </div>
+
+                    </div>
+                    <div class=" pro_control ">
+                        <p>....</p>
+                    </div>
+                </div>
+
+                <div class="viewcmt_content">
+                    <p>@item.CommentString</p>
+                </div>
+                <div class="reply_cmt" id="@item.Level">
+                    <a name="reply" class="reply_link">Trả lời @item.UserName</a>
+                    @Html.Action("CreateComment", "User")
+                </div>
+            </div>
+        </div>
+        if (item.NumChild > 0)
+        {
+            @Html.Action("GetChildComment", "Home", new { idParent = item.IDUser, idOwner = item.IDOwner, idPost = item.IDPost, Level = item.Level });
+        }
+
+    }
+
+
+}
+<script>
+    $(document).on('click', "a[name='reply']", function () {
+        const a = this.closest('.reply_cmt').classList;
+      
+            $($(this).closest('.reply_cmt')).addClass('par_cmt');
+    });
+</script>
+
+<style>
+    .reply_cmt {
+        margin: 0px 0 14px 24px;
+    }
+    .reply_link {
+        cursor:pointer;
+    }
+
+    .phancap {
+        padding-left: 8px;
+       /*border-bottom: 1px solid #ccc;*/
+        margin-top: 4px;
+        margin-bottom: 4px;
+    }
+
+
+
+        .phancap::before {
+            border-left: 2px solid #000;
+            border-bottom: 2px solid #000;
+            position: absolute;
+            content: "";
+            /* border-width: 20px; */
+            /* z-index: 100; */
+            height: 28px;
+            margin-left: -30px;
+        }
+
+        .phancap::after {
+            border: 1px solid #000;
+            border-right: 18px solid #000;
+            position: absolute;
+            content: "";
+            /* border-width: 20px; */
+            /* z-index: 100; */
+            height: 0px;
+            display: block;
+            margin-left: -30px;
+            /* top: -1px; */
+            margin-top: 26px;
+        }
+
+    .pro_fomat-user {
+        display: flex;
+        justify-content: space-between;
+    }
+    .par_cmt .cmt_form {
+        display:block;
+    }
+
+
+    .pro_user-item--time {
+        color: darkkhaki;
+        font-size: 14px;
+    }
+
+    .pro_user-item--name {
+        color: #000 !important;
+        font-weight: bold;
+    }
+
+    .viewcmt {
+      
+        font-size: 16px;
+        /*border-bottom: 1px solid #ccc;*/
+    }
+
+    .viewcmt_content {
+        margin-top: 4px;
+        padding-left: 60px;
+        text-align: justify;
+        padding-right: 24px;
+        border-bottom: 1px solid #eee;
+    }
+</style>  

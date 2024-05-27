@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Blog.Models.User>
+@{
+    ViewBag.Title = "SearchByAuthor";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+        @foreach (var item in Model)
+        {
+            <div class="author">
+                <a href="@Url.Action("ViewProfile","User", new { idUser = item.IDUser})">@item.UserName</a>
+            </div>
+        }
+
+<style>
+    .author {
+        width: 100%;
+        height: 100px;
+        margin: 16px 0;
+        border: 1px solid #ccc;
+    }
+</style>

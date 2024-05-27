@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Blog.Models.Comment>
+@{
+    Layout = null;
+
+}
+@foreach (var item in Model)
+{
+    <div class="viewcmt " id="@item.IDUser">
+        <style>
+            <!--.viewcmt {
+                position: sticky;
+                margin-left: calc( @item.Level * 50px);-->
+                @*border-left: 1px solid #ccc;
+                border-width: calc( @item.Level * 50px - 25px);*@
+                <!--border-left: 2px solid #000;
+           
+               
+                content: "";
+                /* border-width: 20px; */
+                /* z-index: 100; */
+               
+            }-->
+        </style>
+        <div class="pro phancap mot" style=" margin-left:calc(@item.Level * 35px);" id="@item.IDComment">
+
+
+
+            <div class="pro_fomat-user">
+                <div class="pro_item pro_user ">
+                    <img src="~/Images/AvtNull.jpg" class="pro_user-item pro_user-img" />
+                    <div class="pro_user-item">
+                        <div class="pro_user-item--name"><a href="@Url.Action("ViewProfile", "User", new { idUser = item.IDUser})">@item.UserName</a></div>
+                        <div class="pro_user-item--time">@item.DateCreated.ToString()</div>
+                    </div>
+
+                </div>
+                <div class=" pro_control ">
+                    <p>....</p>
+                </div>
+            </div>
+
+            <div class="viewcmt_content">
+                <p>@item.CommentString</p>
+            </div>
+            <div class="reply_cmt" id="@item.Level">
+                <a name="reply" class="reply_link">Trả lời @item.UserName</a>
+                @Html.Action("CreateComment", "User")
+            </div>
+        </div>
+
+        @if (@item.NumChild > 0)
+        {
+            @Html.Action("GetChildComment", "Home", new { idParent = item.IDUser, idOwner = item.IDOwner, idPost = item.IDPost, Level = item.Level });
+        }
+    </div>
+
+}
+
+

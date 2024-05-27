@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Blog.Models.Content>
+@{
+    Layout = null;
+}
+@foreach (var item in Model)
+{
+   <div class="sharedcontent">
+       <div class="pro">
+           <disv class="pro_fomat-user">
+               <div class="pro_item pro_user ">
+                   <img src="~/Images/AvtNull.jpg" class="pro_user-item pro_user-img" />
+                   <div class="pro_user-item">
+                       <div class="pro_user-item--name">  <a href="@Url.Action("ViewProfile", "User", new { idUser = item.IDUser })">@item.UserName</a></div>
+                       <div style="color:#544685" class="pro_user-item--time">@item.DateCreated.ToString()</div>
+                   </div>
+               </div>
+
+           </disv>
+
+       </div>
+       <div class="content_item content_title">@item.Title</div>
+       <div class="content_item content_text">
+           @item.Contents
+   
+
+           @if (!String.IsNullOrEmpty(item.Type))
+           {
+               <p class="text_tag" style="color:royalblue"> @item.Type.Replace('_', '#').Replace(" ", "")</p>
+           }
+       </div>
+   </div>
+}
+
+<style>
+    .text_tag {
+        font-size:15px;
+    }
+    .sharedcontent {
+        border: 1px solid #ccc;
+        padding: 16px 28px;
+        margin: 16px 28px;
+    }
+</style>

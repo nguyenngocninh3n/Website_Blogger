@@ -1,0 +1,311 @@
+﻿@model IEnumerable<Blog.Models.InforUser>
+<div class="infor">
+    @foreach (var item in Model)
+    {
+        <div id="avatar" class="avatar">
+            <div class="avatar_img">
+                @if (item.Avatar == null)
+                {
+                    <img src="~/Images/AvtNull.jpg" class="avatar_img-link" id="avatar_img-link" />
+                }
+                else
+                {
+                    <img src="~/Images/@item.Avatar" class="avatar_img-link" id="avatar_img-link" />
+                }
+            <div id="avatar_options" class="avatar_options avatar_hide">
+                <div id="avatar_option-view" class="avatar_option avatar_option-view">
+                    <span>Xem avatar</span>
+                </div>
+                @if (Session["User"] != null)
+                {
+                    if (Session["IDUser"].Equals(Session["IDGuest"]))
+                    {
+                        <div id="avatar_option-edit" class="avatar_option  avatar_option-edit">
+                            <span>Chỉnh sửa</span>
+                        </div>
+                    }
+                }
+                </div>
+            </div>
+            <p class="avatar_name">
+                <a href="@Url.Action("ViewProfile", "User", new { idUser = Session["IDGuest"].ToString() })">@item.UserName</a>
+            </p>
+
+        </div>
+
+        <div class="info_edit" style="text-align:right; margin-right: 10px;">
+            @if (Session["User"] != null)
+            {
+                if (Session["IDUser"].Equals(Session["IDGuest"]))
+                {
+                    <a href="@Url.Action("EditInfor", "User", new { idUser = Session["IDGuest"].ToString() }) " class="info_edit-link">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    </a>
+                }
+
+            }
+
+        </div>
+        <div class="infor-user">
+            @if (item.BirthdayMode == true)
+            {
+                <div class="user_item row">
+                    <div class=" user_item-lable col-lg-5 col-md-5 col-sm-5">Ngày sinh: </div>
+                    <div class="user_item-content col-lg-7 col-md-7 col-sm-7 job">@DateTime.Parse(item.Birthday.ToString()).ToShortDateString()</div>
+                </div>
+            }
+            @if (item.SexMode == true && !String.IsNullOrEmpty(item.Sex))
+            {
+                <div class="user_item row">
+                    <div class=" user_item-lable col-lg-5 col-md-5 col-sm-5">Giới tính: </div>
+                    <div class="user_item-content col-lg-7 col-md-7 col-sm-7 job">@item.Sex</div>
+                </div>
+            }
+
+            @if (item.JobMode == true && !String.IsNullOrEmpty(item.Job))
+            {
+                <div class="user_item row">
+                    <div class=" user_item-lable col-lg-5 col-md-5 col-sm-5">Công việc: </div>
+                    <div class="user_item-content col-lg-7 col-md-7 col-sm-7 job">@item.Job</div>
+                </div>
+            }
+            @if (item.DegreeMode == true && !String.IsNullOrEmpty(item.Degree))
+            {
+                <div class="user_item row">
+                    <div class=" user_item-lable col-lg-5 col-md-5 col-sm-5">Học vấn: </div>
+                    <div class="user_item-content col-lg-7 col-md-7 col-sm-7 job">@item.Degree</div>
+                </div>
+            }
+            @if (item.AddressMode == true && !String.IsNullOrEmpty(item.Addr))
+            {
+                <div class="user_item row">
+                    <div class=" user_item-lable col-lg-5 col-md-5 col-sm-5">Địa chỉ: </div>
+                    <div class="user_item-content col-lg-7 col-md-7 col-sm-7 address"> @item.Addr.ToString()</div>
+                </div>
+            }
+            @if (item.EmailMode == true && !String.IsNullOrEmpty(item.Email))
+            {
+                <div class="user_item row">
+                    <div class=" user_item-lable col-lg-5 col-md-5 col-sm-5">Email: </div>
+                    <div class="user_item-content col-lg-7 col-md-7 col-sm-7 email">@item.Email</div>
+                </div>
+            }
+
+            @*<div class="user_item row">
+            <div class=" user_item-lable col-lg-5 col-md-5 col-sm-5">Số điện thoại: </div>
+            <div class="user_item-content col-lg-7 col-md-7 col-sm-7 phone">@item.PhoneNumber</div>
+        </div>*@
+            @if (item.FacebookMode == true && !String.IsNullOrEmpty(item.Facebook))
+            {
+                <div class="user_item row">
+                    <div class=" user_item-lable col-lg-5 col-md-5 col-sm-5">Facebook: </div>
+                    <div class="user_item-content col-lg-7 col-md-7 col-sm-7 facebook">@item.Facebook</div>
+                </div>
+            }
+
+            @if (item.InstagramMode == true && !String.IsNullOrEmpty(item.Instagram))
+            {
+                <div class="user_item row">
+                    <div class=" user_item-lable col-lg-5 col-md-5 col-sm-5">Instagram: </div>
+                    <div class="user_item-content col-lg-7 col-md-7 col-sm-7 instagram">@item.Instagram</div>
+                </div>
+            }
+
+            @if (item.YoutubeMode == true && !String.IsNullOrEmpty(item.Youtube))
+            {
+                <div class="user_item row">
+                    <div class=" user_item-lable col-lg-5 col-md-5 col-sm-5">Youtube: </div>
+                    <div class="user_item-content col-lg-7 col-md-7 col-sm-7 youtube">@item.Youtube</div>
+                </div>
+            }
+
+            @if (item.LinkedInMode == true && !String.IsNullOrEmpty(item.LinkedIn))
+            {
+                <div class="user_item row">
+                    <div class=" user_item-lable col-lg-5 col-md-5 col-sm-5">LinkedIn: </div>
+                    <div class="user_item-content col-lg-7 col-md-7 col-sm-7 linkedin">@item.LinkedIn</div>
+                </div>
+            }
+
+        </div>
+
+        <div id="avatar_fullview" class="avatar_fullview avatar_hide">
+            @if (item.Avatar != null)
+            {
+                <img class="avatar_fullview-img" src="~/Images/@item.Avatar" />
+            }
+            else
+            {
+                <img class="avatar_fullview-img" src="~/Images/AvtNull.jpg" />
+            }
+        </div>
+        @*<div id="avatar_fulledit" class="avatar_fulledit avatar_hide">
+            @Html.BeginForm("EditAvatar", "User", FormMethod.Post, new { @enctype = "multipart/form-data" })
+            {
+                @Html.AntiForgeryToken()
+                <div class="">
+                    <span>Tải tệp lên</span>
+                    <input type="file" name="avatarfile" />
+                </div>
+                <input type="submit" value="Lưu" />
+            }
+        </div>*@
+    }
+</div>
+<script>
+    //mở lựa chọn
+    $(document).on('click', "img[id='avatar_img-link']", function () {
+        var it = document.getElementById('avatar_options');
+        $(it).removeClass('avatar_hide');
+    })
+
+    //mở xem full view
+    $(document).on('click', "div[id='avatar_option-view']", function () {
+
+        var subit = document.getElementById('avatar_fullview');
+        $(subit).removeClass('avatar_hide');
+
+        var itt = document.getElementById('avatar_options');
+        $(itt).addClass('avatar_hide');
+    })
+
+    $(document).on('click', "div[id='avatar_fullview']", function () {
+       
+        $(this).addClass('avatar_hide');
+    })
+
+    //mở full edit
+    $(document).on('click', "div[id='avatar_option-edit']", function () {
+        var itclose = document.getElementById('avatar_options');
+        $(itclose).addClass('avatar_hide');
+
+        var itsub = document.getElementById('avatar_fulledit');
+        $(itsub).removeClass('avatar_hide');
+    })
+
+
+
+
+</script>
+
+<style>
+    .avatar_fullview {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        /*background: linear-gradient(0, 0, 0, 0.01);*/
+        background: #eee;
+        display: flex;
+    }
+
+
+
+    .avatar_fullview-img {
+        margin: auto;
+        width: 700px;
+        height: 700px;
+        z-index: 2;
+        background:#fff;
+    }
+
+    .avatar_options {
+        position: absolute;
+        /* bottom: 0; */
+        /* left: 0; */
+        /* right: 0; */
+        height: 90px;
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        justify-content: space-around;
+        bottom: -80px;
+    }
+
+    .avatar_option {
+        height: 40px;
+        width: 112px;
+        margin: auto;
+        justify-content: center;
+        align-content: center;
+        display: flex;
+        margin: auto 0px;
+        background: lightgray;
+    }
+
+        .avatar_option:hover {
+            background: #b6ff00;
+        }
+
+        .avatar_option span {
+            margin: auto;
+        }
+
+    .avatar_hide {
+        display: none;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .
+
+    .info_edit-link {
+        font-size: 24px;
+    }
+
+
+    .infor {
+        margin: 0;
+        padding: 0;
+        font-size: 16px;
+        background-color: #ccc;
+        display: flex;
+        flex-direction: column;
+        min-height: 580px;
+        width: 100%;
+        min-width: 305px;
+    }
+
+    .avatar {
+        padding: 0 16px;
+        margin-top: 32px;
+    }
+
+    .avatar_img {
+        display: flex;
+        justify-content: center;
+        position: relative;
+    }
+
+    .avatar_img-link {
+        width: 150px;
+        height: 150px;
+        margin: auto;
+        border-radius: 50%;
+    }
+
+    .avatar_name {
+        margin: 16px auto;
+        text-align: center;
+        font-size: 20px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #000;
+    }
+
+    .infor-user {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .user_item {
+        display: flex;
+        width: 100%;
+        padding: 10px;
+    }
+</style>
+

@@ -1,0 +1,212 @@
+﻿@model IEnumerable<Blog.Models.Menu>
+<link href="~/fonts/fontawesome-free-6.1.2-web/css/all.css" type="text/css" rel="stylesheet" />
+
+<div class="container-fluid nav-text nav_main">
+    <div class="navbarfull row">
+        <div class=" menu col-lg-5">
+            <ul class="nav_item nav navbar">
+                @{
+                    int i = 0;
+                    foreach (var item in Model)
+                    {
+ 
+                        if (ViewBag.lst[i] != 0)
+                        {
+                            <li class="dropdown">
+                                <a href="@item.MenuLink" class="menu-link" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                                    @item.MenuName<span class="caret"></span>
+                                </a>
+                                @Html.Action("LoadChildMenu", "Home", new { parentId = item.Id })
+                            </li>
+                        }
+                        else
+                        {
+                            <li><a class="menu-link" href="~/@item.MenuLink"> @item.MenuName </a> </li>
+                        }
+                        i++;
+                    }
+                }
+            </ul>
+        </div>
+
+        <div class="nav_item col-lg-4">
+            @using (Html.BeginForm("Search", "Home", FormMethod.Post))
+            {
+                @Html.ValidationSummary(true)
+                <div class="search">
+                    <div class="search_item item_form">
+                        <input class="search_sub-item search_form" name="search" placeholder="Tìm kiếm...." />
+                    </div>
+                    <div class="search_item item_type">
+                        <select name="type" class="search_sub-item search_type">
+                            <option class="type_selected" value="tacgia">Tác giả</option>
+                            <option class="type_selected" value="baiviet">Bài viết</option>
+                        </select>
+                    </div>
+                    <div class="search_item item_icon">
+                        <button type="submit" class="search_sub-item search_icon">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+        @if (Session["User"] == null)
+        {
+            <div class="nav_item user col-lg-3">
+                <div class="user-item">
+                    <a href="@Url.Action("Login", "User" )" class="user-link">Đăng nhập</a>
+                </div>
+                <span class="space-user-item"> / </span>
+                <div class="user-item">
+                    <a href="@Url.Action("SignUp", "User")" class="user-link">Đăng kí</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class=" nav_item user col-lg-3">
+                <div class="user-item">
+                    <a href="@Url.Action("ViewProfile", "User",  new { idUser = Session["IDUser"].ToString() })" class="user-link">@Session["UserName"].ToString()</a>
+                </div>
+                <span class="space-user-item"> / </span>
+                <div class="user-item">
+                    <a href="@Url.Action("LogOut", "User")" class="user-link">Đăng xuất</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+<style>
+
+    .nav_main {
+        position: fixed;
+        z-index: 1;
+        top: 0;
+    }
+
+    .nav_item {
+        margin: auto !important;
+    }
+
+    ul.nav_item {
+        display: flex;
+        justify-items: flex-start;
+    }
+
+    .search_sub-item {
+        height: 28px;
+    }
+
+    .search_item {
+        height: 28px;
+        color: #000;
+        padding: 2px;
+        margin-left: -5px;
+    }
+
+    .search_type {
+        width: 80px;
+        background: #eee;
+    }
+
+    .search_form {
+        font-size: 16px;
+    }
+
+    .item_icon {
+        background: #fff;
+        height: 28px;
+        margin-top: 2px;
+        border: 2px solid #ccc;
+        margin-left: -3px;
+        width: 30px;
+    }
+
+    .search_icon {
+        background: #fff;
+        height: 20px;
+        border: none;
+        margin: auto;
+    }
+
+        .search_icon i {
+            display: block;
+            margin: auto auto auto 3px;
+        }
+
+    .container-fluid {
+        background-color: rgb(60 95 143);
+    }
+
+    .nav-text {
+        color: white !important;
+    }
+
+    .menu {
+        color: #fff;
+    }
+
+    .menu-list {
+        display: flex;
+        flex-direction: row;
+        margin: 0px;
+        justify-content: space-around;
+    }
+
+    .menu-item {
+        list-style: none;
+        /*padding-right: 10%;*/
+        display: block;
+        margin: 0;
+        padding-top: 16px;
+        padding-bottom: 16px;
+    }
+
+    .menu-link {
+        text-decoration: none;
+        color: white;
+        font-weight: bold;
+    }
+
+    .menu-item:hover {
+        opacity: 0.8;
+        background: #fbf9e6;
+    }
+
+
+
+
+    .row.navbarfull {
+        margin: auto 5%;
+    }
+
+    .search {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        padding: 8px 10px;
+    }
+
+
+
+    .user {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    .space-user-item {
+        padding-left: 2%;
+        padding-right: 2%;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .user-link {
+        font-weight: bold;
+        color: #fff;
+    }
+</style>

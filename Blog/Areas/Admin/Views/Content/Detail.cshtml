@@ -1,0 +1,126 @@
+﻿@model IEnumerable<Blog.Models.Content>
+
+@{
+    ViewBag.Title = "Chi tiết bài viết";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+    <link rel="stylesheet" href="~/fonts/fontawesome-free-6.1.2-web/css/all.css">
+
+}
+<a href="@Url.Action("Index", "Content")">
+    <div class="back">
+        <div class="btn_back">
+        </div>
+        <span> Trở về trang quản lý bài viết</span>
+    </div>
+</a>
+
+<div class="ctuser_title">Chi tiết bài viết</div>
+<div class="user">
+    @foreach (var item in Model)
+    {
+        <div class="ctuser row">
+            <div class="ctuser_info col-lg-6">
+                <div class="info-item row">
+                    <div class="info_item-child col-lg-4 col-md-4 col-sm-4 info_item-title">ID User</div>
+                    <div class="info_item-child col-lg-8 col-md-8 col-sm-8">@item.IDUser</div>
+                </div>
+                <div class="info-item row">
+                    <div class="info_item-child col-lg-4 col-md-4 col-sm-4 info_item-title">ID Post</div>
+                    <div class="info_item-child col-lg-8 col-md-8 col-sm-8">@item.IDPost</div>
+                </div>
+                <div class="info-item row">
+                    <div class="info_item-child col-lg-4 col-md-4 col-sm-4 info_item-title">Họ và tên</div>
+                    <div class="info_item-child col-lg-8 col-md-8 col-sm-8">@item.UserName</div>
+                </div>
+                <div class="info-item row">
+                    <div class="info_item-child col-lg-4 col-md-4 col-sm-4 info_item-title">Thể loại</div>
+                    <div class="info_item-child col-lg-8 col-md-8 col-sm-8">@item.Type</div>
+                </div>
+            </div>
+            <div class="ctuser_info col-lg-6">
+                <div class="info-item row">
+                    <div class="info_item-child  col-lg-4 col-md-4 col-sm-4 info_item-title">Lượt thích</div>
+                    <div class="info_item-child col-lg-8 col-md-8 col-sm-8">@item.HeartCount</div>
+                </div>
+                <div class="info-item row">
+                    <div class="info_item-child col-lg-4 col-md-4 col-sm-4 info_item-title">Lượt bình luận</div>
+                    <div class="info_item-child col-lg-8 col-md-8 col-sm-8">@item.CommentCount</div>
+                </div>
+                <div class="info-item row">
+                    <div class="info_item-child col-lg-4 col-md-4 col-sm-4 info_item-title">Lượt chia sẻ</div>
+                    <div class="info_item-child col-lg-8 col-md-8 col-sm-8">@item.SharedCount</div>
+                </div>
+                <div class="info-item row">
+                    <div class="info_item-child col-lg-4 col-md-4 col-sm-4 info_item-title">Ngày tạo</div>
+                    <div class="info_item-child col-lg-8 col-md-8 col-sm-8">@item.DateCreated</div>
+                </div>                        
+            </div>
+        </div>
+        <div style="text-align:center;margin-bottom: 32px;">.....Nội dung bài viết.....</div>
+        <div class="content_title">@item.Title</div>
+        <div class="content_main">@item.Contents</div>
+
+
+    }
+</div>
+<style>
+    .content_title {
+        text-align: center;
+        color: #65676B;
+        font-size: 18px;
+        margin-bottom: 16px;
+
+    }
+    .content_main {
+        text-align:justify;
+        min-height: 50px;
+        border: 1px solid #eee;
+    }
+    .back {
+        padding-top: 16px;
+        display: flex;
+        align-items: center;
+    }
+
+    .btn_back {
+        background-image: url(../../../../Images/back-button-svgrepo-com.svg);
+        width: 30px;
+        height: 30px;
+        background-repeat: no-repeat;
+        margin-right: 8px;
+    }
+
+
+    .ctuser_title {
+        color: #F05;
+        font-size: 40px;
+        text-align: center;
+    }
+
+    .info-item {
+    }
+
+    .info_item-child {
+        border: 1px solid #ccc;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+    }
+
+    .info_item-title {
+        color: #45C26B;
+        font-weight: 500;
+        font-style: italic;
+    }
+
+    .ctuser {
+        padding: 5%;
+    }
+
+    .ctuser_info:first-child {
+        border-right: 2px solid #000;
+    }
+</style>

@@ -1,0 +1,283 @@
+﻿@model IEnumerable<Blog.Models.Menu>
+@{
+    Layout = null;
+}
+
+
+<div class="create">
+    <div class="create_content-avatar"> </div>
+    <input id="createcontent" onclick="showCreateContent()" class="create_input" placeholder="Đăng bài..." />
+    <div id="showhide" class="newcontent">
+        <p class="newcontent_title">
+            Tạo bài viết
+        </p>
+        @using (Html.BeginForm("CreateContent", "User", FormMethod.Post))
+        {
+            @Html.ValidationSummary(true)
+            <div class="newcontent_body">
+                <div id="newcontent_cancel" onclick="hideCreateContent()"></div>
+                @ViewData["ErrTitle"]
+                <input type="text" placeholder="Tiêu đề..." id="title" name="title" class="newcontent_item newcontent_item-title" />
+                @ViewData["ErrType"]
+                <div class="typeselection">
+                    <div class="type_title">
+                        Thể loại:
+                    </div>
+                    <div class="type_list">
+                        @foreach (var item in Model)
+                        {
+                            if (item.ParentId == 2)
+                            {
+                                <div class="type_list-item">
+                                    <input class="type_list-btn" type="checkbox" name="@item.Id" />
+                                    <div class="type_list-title" name="@item.Id">
+                                        <span>  @item.MenuName</span>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+                @ViewData["ErrContent"]
+                <textarea size="40" maxlength="4000" id="content" name="content" type="text" placeholder="Nội dung..." class="newcontent_item newcontent_item-content"></textarea>
+                <input type="submit" class="newcontent_item newcontent_submit" value="Đăng" />
+            </div>
+        }
+    </div>
+
+</div>
+
+<script>
+    $(document).on('click', "div[class='type_list-item']", function () {
+      
+        if ($(this).children()[0].checked == false) {
+            $($(this).children()[1]).addClass('checkedType');
+            $(this).children()[0].checked = true;
+        }
+        else {
+            $($(this).children()[1]).removeClass('checkedType');
+            $(this).children()[0].checked = false;
+        }
+    })
+</script>
+
+
+<style>
+
+    .typeselection {
+        display: flex;
+        align-content: center;
+    }
+
+    .type_list {
+        padding-top: 16px;
+        flex: 8.5;
+        display: flex;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .type_title {
+        flex: 1.5;
+        margin: auto;
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    .type_list-item {
+        text-align: center;
+        line-height: 100%;
+        padding: 8px;
+        border-radius: 18px;
+        opacity: 0.7;
+        margin: 4px 2px;
+        position: relative;
+        width: 100px;
+        height: 32px;
+        cursor:pointer;
+    }
+
+   .checkedType {
+        background: #DEA !important;
+    }
+
+    .type_list-btn {
+        height: 100%;
+        width: 100%;
+        display: block;
+        background: none;
+    }
+
+/*    .type_list-item:focus {
+        opacity: 1;
+        background: #DEA;
+    }*/
+
+    .type_list-title {
+        position:absolute;
+        top:0;
+        bottom:0;
+        left:0;
+        right:0;
+        border-radius: 20px;
+        background:#eee;
+        z-index:1;
+        display:flex;
+        align-content:center;
+        justify-content:center;
+    }
+
+        .type_list-title span {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+
+
+
+
+
+ /*   .type_list-btn {
+        width: 50px;
+        height: 30px;
+    }
+    .type_list-item:focus {
+  
+        opacity: 1;
+        background: #DEA;
+    }
+
+    .typeselection {
+        display:flex;
+        align-content:center;
+    }
+
+    .type_title {
+        flex: 1.5;
+        margin:auto;
+        font-weight:bold;
+        font-size:18px;
+    }
+    .type_list {
+        padding-top:16px;
+        flex: 8.5;
+    }
+
+    .type_list-item {
+        text-align: center;
+        line-height: 100%;
+        padding: 8px;
+        border-radius: 18px;
+        opacity: 0.7;
+        margin: 4px 2px;
+    }
+*/
+
+    .create {
+        display: flex;
+        width: 800px;
+        margin: 16px auto;
+        font-size: 16px;
+    }
+
+    .create_content-avatar {
+        width: 50px;
+        height: 50px;
+        background-image: url('../../Images/AvtNull.jpg');
+        border-radius: 50%;
+        background-size: contain;
+        margin-right: 8px;
+    }
+
+    .create_input {
+        flex: 1;
+        border-radius: 28px;
+        font-size: 20px;
+        padding-left: 16px;
+        max-width: 100%;
+    }
+
+ 
+
+    .newcontent {
+        position: absolute;
+        top: 50px;
+        width: 800px;
+        margin: auto;
+        display: none;
+        background: #ccc;
+        border-radius: 16px;
+        z-index:1;
+    }
+
+    #newcontent_cancel {
+        background: url('../../Images/btn_cancel.jpg');
+        width: 32px;
+        height: 32px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-size: contain;
+        cursor: pointer;
+    }
+
+    .open {
+        display:block;
+    }
+      
+    .newcontent_title {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin: 16px 0;
+    }
+
+    .newcontent_body {
+        display: flex;
+        flex-direction: column;
+        padding: 16px 32px;
+    }
+
+    .newcontent_item {
+        border-radius: 28px;
+        font-size: 20px;
+        max-width: 100%;
+        border: none;
+        padding: 4px 24px;
+    }
+
+    .newcontent_item-content {
+        padding-top: 8px;
+        margin: 24px 0;
+        height: 200px;
+    }
+
+    .newcontent_submit {
+        background: blue;
+        padding: 4px 0;
+        width: 100%;
+    }
+
+  
+</style>
+
+
+<script>
+
+    const closeF = document.getElementById('newcontent_cancel')
+
+        //hiện form
+    function showCreateContent() {
+        const openF = document.getElementById('showhide')
+        openF.classList.add('open')
+        }
+
+        //ẩn form
+    function hideCreateContent() {
+        const openF = document.getElementById('showhide')
+        openF.classList.remove('open')
+    }
+
+</script>

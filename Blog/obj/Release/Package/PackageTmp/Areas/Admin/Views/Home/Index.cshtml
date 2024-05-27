@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/LayoutAdmin.cshtml";
+}
+
+@if (Session["Admin"] == null)
+{
+    <p style="text-align:center">Vui lòng đăng nhập để tiếp tục</p>
+    <p style="text-align:center"><a href="@Url.Action("Login", "User")">Đăng nhập</a></p>
+
+}
+
+else
+{
+    <div class="headere">
+        Blog viết lách
+    </div>
+    <style>
+        .headere {
+            height: 50px;
+            width: 100%;
+            color:aqua;
+            font-weight:bold;
+            font-style: italic;
+            font-size: 36px;
+            /* text-align: center; */
+            font-family: fangsong;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top:160px;
+        }
+    </style>
+}
